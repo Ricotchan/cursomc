@@ -12,7 +12,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -24,7 +23,7 @@ public class Cliente implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer id;
+	private Integer idCliente;
 	private String nome;
 	private String email;
 	private String cpfoucnpj;
@@ -38,12 +37,15 @@ public class Cliente implements Serializable{
 	@CollectionTable(name="TELEFONE")
 	private Set<String> telefones = new HashSet<>();
 	
+	@OneToMany(mappedBy="cliente")
+	private List<Pedido> pedidos = new ArrayList<>();
+	
 	public Cliente() {
 	}
 
 	public Cliente(Integer id, String nome, String email, String cpfoucnpj, TipoCliente tipo) {
 		super();
-		this.id = id;
+		this.idCliente = id;
 		this.nome = nome;
 		this.email = email;
 		this.cpfoucnpj = cpfoucnpj;
@@ -51,11 +53,11 @@ public class Cliente implements Serializable{
 	}
 
 	public Integer getId() {
-		return id;
+		return idCliente;
 	}
 
 	public void setId(Integer id) {
-		this.id = id;
+		this.idCliente = id;
 	}
 
 	public String getNome() {
@@ -106,11 +108,19 @@ public class Cliente implements Serializable{
 		this.telefones = telefones;
 	}
 
+	public List<Pedido> getPedidos() {
+		return pedidos;
+	}
+
+	public void setPedidos(List<Pedido> pedidos) {
+		this.pedidos = pedidos;
+	}	
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((idCliente == null) ? 0 : idCliente.hashCode());
 		return result;
 	}
 
@@ -123,13 +133,12 @@ public class Cliente implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Cliente other = (Cliente) obj;
-		if (id == null) {
-			if (other.id != null)
+		if (idCliente == null) {
+			if (other.idCliente != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!idCliente.equals(other.idCliente))
 			return false;
 		return true;
 	}
-	
-	
+
 }

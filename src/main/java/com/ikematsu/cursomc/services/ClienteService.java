@@ -10,7 +10,7 @@ import com.ikematsu.cursomc.repositories.ClienteRepository;
 import com.ikematsu.cursomc.services.exceptions.ObjectNotFoundException;
 
 @Service
-public class ClienteService {
+public class ClienteService { 
 
 	@Autowired
 	private ClienteRepository repo;
